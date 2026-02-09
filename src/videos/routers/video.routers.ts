@@ -15,7 +15,7 @@ import {
 export const videosRouter = Router();
 
 videosRouter
-  .get("", (req: Request, res: Response) => {
+  .get("/", (req: Request, res: Response) => {
     res.status(HttpStatus.OK).json(db.videos);
   })
 
@@ -28,7 +28,7 @@ videosRouter
     }
     res.status(HttpStatus.OK).json(foundVideo);
   })
-  .post("", (req: Request, res: Response) => {
+  .post("/", (req: Request, res: Response) => {
 
     const errors = videoCreatedInputValidation(req.body);
     if (errors.length > 0) {

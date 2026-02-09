@@ -8,7 +8,7 @@ const APIErrorResult_1 = require("../../core/utils/APIErrorResult");
 const validation_video_input_dto_1 = require("../validation/validation.video.input-dto");
 exports.videosRouter = (0, express_1.Router)();
 exports.videosRouter
-    .get("", (req, res) => {
+    .get("/", (req, res) => {
     res.status(http_status_1.HttpStatus.OK).json(in_memory_db_1.db.videos);
 })
     .get("/:id", (req, res) => {
@@ -19,7 +19,7 @@ exports.videosRouter
     }
     res.status(http_status_1.HttpStatus.OK).json(foundVideo);
 })
-    .post("", (req, res) => {
+    .post("/", (req, res) => {
     const errors = (0, validation_video_input_dto_1.videoCreatedInputValidation)(req.body);
     if (errors.length > 0) {
         return res.status(http_status_1.HttpStatus.BAD_REQUEST).json((0, APIErrorResult_1.APIErrorResult)(errors));

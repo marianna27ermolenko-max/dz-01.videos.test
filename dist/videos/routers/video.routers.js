@@ -64,13 +64,18 @@ exports.videosRouter
 })
     .delete("/:id", (req, res) => {
     const id = Number(req.params.id);
+    // 1️⃣ валидация id
     if (isNaN(id) || id <= 0) {
         return res.sendStatus(http_status_1.HttpStatus.BAD_REQUEST);
     }
-    const index = in_memory_db_1.db.videos.findIndex(v => v.id === id);
-    if (index === -1) {
+    // 2️⃣ создаём новый массив без видео с этим id
+    const filteredVideos = in_memory_db_1.db.videos.filter(v => v.id !== id);
+    // 3️⃣ если длина не изменилась — значит такого id не было
+    if (filteredVideos.length === in_memory_db_1.db.videos.length) {
         return res.sendStatus(http_status_1.HttpStatus.NOT_FOUND);
     }
-    in_memory_db_1.db.videos.splice(index, 1);
+    // 4️⃣ сохраняем новый массив
+    in_memory_db_1.db.videos = filteredVideos;
+    // 5️⃣ успешное удаление
     return res.sendStatus(http_status_1.HttpStatus.NO_CONTENT);
 });

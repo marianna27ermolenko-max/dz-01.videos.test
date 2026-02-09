@@ -13,8 +13,8 @@ const setupApp = (app) => {
     app.get('/', (req, res) => {
         res.status(200).send("Hello world!");
     });
-    app.use('api/videos', video_routers_1.videosRouter);
-    app.use('api/testing', routers_testing_1.testingRouter);
+    app.use('/api/videos', video_routers_1.videosRouter);
+    app.use('/api/testing', routers_testing_1.testingRouter);
     (0, setup_swagger_1.setupSwagger)(app);
     return app;
 };

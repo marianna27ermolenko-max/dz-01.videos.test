@@ -4,7 +4,7 @@ import  { setupApp } from "./setup-app"
 const app = express();
 setupApp(app);
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 5001;
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`) 

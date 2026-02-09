@@ -4,6 +4,7 @@
     "module": "commonjs",
     "rootDir": "./src",
     "outDir": "./dist",
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,3 +14,4 @@
   "include": ["src/**/*"],
   "exclude": ["__tests__", "dist", "node_modules"]
 }
+

@@ -8,7 +8,7 @@ export type UpdateVideoInputModel = {
    availableResolutions: Resolutions[];
    canBeDownloaded: boolean; 
    minAgeRestriction: number | null;
-   publicationDate: Date;
+   publicationDate: string;
 
 }
 

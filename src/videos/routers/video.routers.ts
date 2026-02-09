@@ -24,8 +24,7 @@ videosRouter
     const foundVideo = db.videos.find((n) => n.id === idVideo);
 
     if (!foundVideo) {
-      res.status(HttpStatus.NOT_FOUND);
-      return;
+       return res.sendStatus(HttpStatus.NOT_FOUND);   
     }
     res.status(HttpStatus.OK).json(foundVideo);
   })
@@ -57,14 +56,15 @@ videosRouter
   .put("/:id", (req: Request, res: Response) => {
 
     const idVideo = Number(req.params.id);
-    const foundVideo = db.videos.find((n) => n.id === idVideo);
 
     if (isNaN(idVideo) || !Number.isFinite(idVideo) || idVideo <= 0){
       return res.sendStatus(HttpStatus.BAD_REQUEST);
     }
 
+    const foundVideo = db.videos.find((n) => n.id === idVideo);
+
     if (!foundVideo) {
-      res.status(HttpStatus.NOT_FOUND);
+      res.sendStatus(HttpStatus.NOT_FOUND);
       return;
     }
 
@@ -79,19 +79,31 @@ videosRouter
       foundVideo.author = data.author;
       foundVideo.canBeDownloaded = data.canBeDownloaded;
       foundVideo.minAgeRestriction = data.minAgeRestriction;
-      foundVideo.publicationDate = data.publicationDate.toISOString();
+      foundVideo.publicationDate = data.publicationDate;
       foundVideo.availableResolutions = data.availableResolutions;
 
     res.sendStatus(HttpStatus.NO_CONTENT);
   })
 
-  .delete("/:id", (req: Request, res: Response) => {
-    const id = Number(req.params.id);
-    const deleteVideo = db.videos.filter((n) => n.id !== id);
+ .delete("/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
 
-    if (!deleteVideo) {
-      res.status(HttpStatus.NOT_FOUND);
-      return;
-    }
-    res.status(HttpStatus.NO_CONTENT);
-  });
+  // 1️⃣ валидация id
+  if (isNaN(id) || id <= 0) {
+    return res.sendStatus(HttpStatus.BAD_REQUEST);
+  }
+
+  // 2️⃣ создаём новый массив без видео с этим id
+  const filteredVideos = db.videos.filter(v => v.id !== id);
+
+  // 3️⃣ если длина не изменилась — значит такого id не было
+  if (filteredVideos.length === db.videos.length) {
+    return res.sendStatus(HttpStatus.NOT_FOUND);
+  }
+
+  // 4️⃣ сохраняем новый массив
+  db.videos = filteredVideos;
+
+  // 5️⃣ успешное удаление
+  return res.sendStatus(HttpStatus.NO_CONTENT);
+});

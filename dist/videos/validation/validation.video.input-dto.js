@@ -58,6 +58,7 @@ const videoUpdateInputValidation = (data) => {
     if (!data.publicationDate || typeof data.publicationDate !== "string") {
         errors.push({ field: "publicationDate", message: "Invalid publicationDate" });
     }
+    console.log(errors);
     return errors;
 };
 exports.videoUpdateInputValidation = videoUpdateInputValidation;

@@ -16,6 +16,7 @@ const setupApp = (app) => {
     app.use('/hometask_01/api/videos', video_routers_1.videosRouter);
     app.use('/hometask_01/api/testing', routers_testing_1.testingRouter);
     (0, setup_swagger_1.setupSwagger)(app);
+    console.log('hey');
     return app;
 };
 exports.setupApp = setupApp;

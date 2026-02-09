@@ -18,6 +18,7 @@ const swaggerOptions = {
     apis: ["./src/**/*.swagger.yml"],
 };
 const swaggerSpec = (0, swagger_jsdoc_1.default)(swaggerOptions);
+console.log('hey');
 const setupSwagger = (app) => {
     app.use("/api", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec));
 };

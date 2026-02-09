@@ -17,5 +17,6 @@ export const setupApp = (app: Express) => {
     app.use('/hometask_01/api/testing', testingRouter);
 
     setupSwagger(app);
+    console.log('hey')
     return app; 
 }

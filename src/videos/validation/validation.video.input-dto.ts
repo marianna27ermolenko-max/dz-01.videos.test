@@ -1,6 +1,7 @@
 import { CreateVideoInputModel, UpdateVideoInputModel } from "../dto/video.input-dto";
 import { Resolutions } from "../types/videos";
 import { FieldError } from "../types/fieldError";
+import { log } from "node:console";
 
 
 export const videoCreatedInputValidation = (data: CreateVideoInputModel): FieldError[] => {
@@ -66,6 +67,8 @@ export const videoUpdateInputValidation = (data: UpdateVideoInputModel): FieldEr
   if (!data.publicationDate || typeof data.publicationDate !== "string") {
     errors.push({ field: "publicationDate", message: "Invalid publicationDate" });
   }
-
+  console.log(errors)
   return errors;
 };
+
+

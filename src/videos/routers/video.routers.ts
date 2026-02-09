@@ -85,25 +85,20 @@ videosRouter
     res.sendStatus(HttpStatus.NO_CONTENT);
   })
 
- .delete("/:id", (req: Request, res: Response) => {
+.delete("/:id", (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
-  // 1️⃣ валидация id
   if (isNaN(id) || id <= 0) {
     return res.sendStatus(HttpStatus.BAD_REQUEST);
   }
 
-  // 2️⃣ создаём новый массив без видео с этим id
-  const filteredVideos = db.videos.filter(v => v.id !== id);
+  const index = db.videos.findIndex(v => v.id === id);
 
-  // 3️⃣ если длина не изменилась — значит такого id не было
-  if (filteredVideos.length === db.videos.length) {
+  if (index === -1) {
     return res.sendStatus(HttpStatus.NOT_FOUND);
   }
 
-  // 4️⃣ сохраняем новый массив
-  db.videos = filteredVideos;
+  db.videos.splice(index, 1);
 
-  // 5️⃣ успешное удаление
   return res.sendStatus(HttpStatus.NO_CONTENT);
 });

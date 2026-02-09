@@ -1,0 +1,10 @@
+paths:
+  /api/testing/all-data:
+    delete:
+      summary: Clear database
+      tags:
+        - Testing
+      description: Delete all data from videos table
+      responses:
+        204:
+          description: All data deleted

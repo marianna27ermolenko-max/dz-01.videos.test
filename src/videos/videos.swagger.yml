@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: Video API
+  version: 1.0.0
+  description: API documentation for managing videos
+
+tags:
+  - name: Videos
+    description: Operations about videos
+
+paths:
+  /api/videos:
+    get:
+      summary: Get all videos
+      tags: [Videos]
+      responses:
+        200:
+          description: List of videos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+    post:
+      summary: Create new video
+      tags: [Videos]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVideoInputModel'
+      responses:
+        201:
+          description: Video created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        400:
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResult'
+
+  /api/videos/{id}:
+    get:
+      summary: Get video by ID
+      tags: [Videos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Video found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        404:
+          description: Video not found
+
+    put:
+      summary: Update video by ID
+      tags: [Videos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVideoInputModel'
+      responses:
+        204:
+          description: Video updated successfully
+        400:
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResult'
+        404:
+          description: Video not found
+
+    delete:
+      summary: Delete video by ID
+      tags: [Videos]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Video deleted successfully
+        404:
+          description: Video not found
+
+components:
+  schemas:
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        canBeDownloaded:
+          type: boolean
+        minAgeRestriction:
+          type: integer
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        publicationDate:
+          type: string
+          format: date-time
+        availableResolutions:
+          type: array
+          items:
+            type: string
+            enum: [P144, P240, P360, P480, P720, P1080, P1440, P2160]
+
+    CreateVideoInputModel:
+      type: object
+      required:
+        - title
+        - author
+        - availableResolutions
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        availableResolutions:
+          type: array
+          items:
+            type: string
+            enum: [P144, P240, P360, P480, P720, P1080, P1440, P2160]
+
+    UpdateVideoInputModel:
+      type: object
+      required:
+        - title
+        - author
+        - availableResolutions
+        - canBeDownloaded
+        - minAgeRestriction
+        - publicationDate
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        availableResolutions:
+          type: array
+          items:
+            type: string
+            enum: [P144, P240, P360, P480, P720, P1080, P1440, P2160]
+        canBeDownloaded:
+          type: boolean
+        minAgeRestriction:
+          type: integer
+          nullable: true
+        publicationDate:
+          type: string
+          format: date-time
+
+    FieldError:
+      type: object
+      properties:
+        message:
+          type: string
+        field:
+          type: string
+
+    APIErrorResult:
+      type: object
+      properties:
+        errorsMessages:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+

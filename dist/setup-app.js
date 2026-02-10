@@ -13,10 +13,12 @@ const setupApp = (app) => {
     app.get('/', (req, res) => {
         res.status(200).send("Hello world!");
     });
-    app.use('/hometask_01/api/videos', video_routers_1.videosRouter);
-    app.use('/hometask_01/api/testing', routers_testing_1.testingRouter);
+    app.delete('/delete', (req, res) => {
+        res.sendStatus(204);
+    });
+    app.use('/videos', video_routers_1.videosRouter);
+    app.use('/testing', routers_testing_1.testingRouter);
     (0, setup_swagger_1.setupSwagger)(app);
-    console.log('hey');
     return app;
 };
 exports.setupApp = setupApp;
